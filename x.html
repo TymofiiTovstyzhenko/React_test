@@ -1,71 +1,84 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <title>React Form Example</title>
-    <script src="https://unpkg.com/react@17.0.2/umd/react.production.min.js"></script>
-    <script src="https://unpkg.com/react-dom@17.0.2/umd/react-dom.production.min.js"></script>
-    <script src="https://unpkg.com/babel-standalone@6.26.0/babel.min.js"></script>
-  </head>
-  <body>
-    <div id="root"></div>
-    <script type="text/babel">
-      function Form() {
-        const [name, setName] = React.useState('');
-        const [email, setEmail] = React.useState('');
+function Form() {
+  const [okiName, setOkiName] = React.useState('');
+  const [country, setCountry] = React.useState('');
+  const [phone, setPhone] = React.useState('');
+  const [sector, setSector] = React.useState('');
 
-        React.useEffect(() => {
-          const storedData = JSON.parse(localStorage.getItem('formData'));
-          if (storedData) {
-            setName(storedData.name);
-            setEmail(storedData.email);
-          }
-        }, []);
+  React.useEffect(() => {
+    const storedData = JSON.parse(localStorage.getItem('formData'));
+    if (storedData) {
+      setOkiName(storedData.okiName);
+      setCountry(storedData.country);
+      setPhone(storedData.phone);
+      setSector(storedData.sector);
+    }
+  }, []);
 
-        const handleSubmit = (e) => {
-          e.preventDefault();
-          const formData = { name, email };
-          localStorage.setItem('formData', JSON.stringify(formData));
-        };
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const formData = { okiName, country, phone, sector };
+    localStorage.setItem('formData', JSON.stringify(formData));
+  };
 
-        const handleRead = () => {
-          const storedData = JSON.parse(localStorage.getItem('formData'));
-          if (storedData) {
-            setName(storedData.name);
-            setEmail(storedData.email);
-          } else {
-            alert('No data found');
-          }
-        };
+  const handleRead = () => {
+    const storedData = JSON.parse(localStorage.getItem('formData'));
+    if (storedData) {
+      setOkiName(storedData.okiName);
+      setCountry(storedData.country);
+      setPhone(storedData.phone);
+      setSector(storedData.sector);
+    } else {
+      alert('No data found');
+    }
+  };
 
-        return (
-          <form onSubmit={handleSubmit}>
-            <div>
-              <label htmlFor="name">Name:</label>
-              <input
-                type="text"
-                id="name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="email">Email:</label>
-              <input
-                type="email"
-                id="email"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <button type="submit">Save</button>
-            <button type="button" onClick={handleRead}>Read</button>
-          </form>
-        );
-      }
-
-      ReactDOM.render(<Form />, document.getElementById('root'));
-    </script>
-  </body>
-</html>
-  
+  return (
+    <form onSubmit={handleSubmit}>
+      <div>
+        <label htmlFor="okiName">OKI Name:</label>
+        <input
+          type="text"
+          id="okiName"
+          value={okiName}
+          onChange={(e) => setOkiName(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="country">Country:</label>
+        <input
+          type="text"
+          id="country"
+          value={country}
+          onChange={(e) => setCountry(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="phone">Phone:</label>
+        <input
+          type="tel"
+          id="phone"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+        />
+      </div>
+      <div>
+        <label htmlFor="sector">Sector:</label>
+        <select
+          id="sector"
+          value={sector}
+          onChange={(e) => setSector(e.target.value)}
+        >
+          <option value="">-- Select a sector --</option>
+          <option value="Agriculture">Agriculture</option>
+          <option value="Construction">Construction</option>
+          <option value="Finance">Finance</option>
+          <option value="Manufacturing">Manufacturing</option>
+          <option value="Technology">Technology</option>
+          <option value="Other">Other</option>
+        </select>
+      </div>
+      <button type="submit">Save</button>
+      <button type="button" onClick={handleRead}>Read</button>
+    </form>
+  );
+}
